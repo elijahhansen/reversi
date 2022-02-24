@@ -9,48 +9,41 @@ static int const grid_size = 36;
 
 static ge211::Color const light_color {255,255,255};
 static ge211::Color const dark_color {0,0,0};
-static ge211::Color const board_color {0,0,0};
+static ge211::Color const board_color {0,128,0};
 
 View::View(Model const& model)
         : model_(model),
         light_sprite((grid_size)/2 -1, light_color),
         dark_sprite((grid_size)/2 -1, dark_color),
-        grid_sprite({grid_size, grid_size}, board_color),
-        board_sprite(initial_window_dimensions(), board_color)
+        grid_sprite({grid_size - 5, grid_size - 5}, board_color)
 
-        //
-
-{ }
+        { }
 
 void View::draw(Sprite_set& set, Position mouse)
 {
-    for (int i = 0; i< model_.board().dimensions().width)
+    for (int i = 0; i< model_.board().dimensions().width; i++)
     {
-        for (int j = 0; j< model_.board().dimensions().height)
+        for (int j = 0; j< model_.board().dimensions().height; j++)
         {
-            set.add_sprite(grid_sprite, board_to_screen({i,j}), 0);
+            set.add_sprite(grid_sprite,  board_to_screen( {i,j}), 0);
+            model_.find_move(mouse);
+
         }
     }
 
-    while (!model_.is_game_over())
+    for (Position p : model_.board())
     {
+        if (model_.find_move(p) != nullptr) {
+            add_player_sprite_(set, model_.turn(), mouse, 0.5);
 
-        if (model_.is_game_over())
-        {
+        }
 
-        }
-        if (model_.find_move(screen_to_board(mouse)) != nullptr)
-        {
-            
-        }
-        if (model_.find_move(screen_to_board(mouse)) != nullptr)
-        {
-            add_player_sprite_(set,model_.turn(), screen_to_board(mouse), 0.5);
-        }
 
 
     }
+
 }
+
 
 View::Dimensions
 View::initial_window_dimensions() const

@@ -22,40 +22,39 @@ public:
     // You will probably want to add arguments here so that the
     // controller can communicate UI state (such as a mouse or
     // cursor position):
-    void draw(ge211::Sprite_set& set);
+    void draw(ge211::Sprite_set& set, Position mouse);
 
     Dimensions initial_window_dimensions() const;
 
     std::string initial_window_title() const;
 
-    // TODO: Add any public member functions you need.
-
-private:
-    Model const& model_;
-
     View :: Position
-     board_to_screen (
+    board_to_screen (
             Model :: Position logical )
     const ;
 
     Model :: Position
-     screen_to_board (
+    screen_to_board (
             View :: Position physical )
     const ;
 
     void
-     add_player_sprite_ (
+    add_player_sprite_ (
             ge211 :: Sprite_set & sprites ,
             Player which ,
             ge211 :: Posn <int > physical ,
             int z_layer )
     const ;
 
+private:
+    Model const& model_;
+
+
     ge211::Circle_sprite const light_sprite;
     ge211::Circle_sprite const dark_sprite;
     ge211::Rectangle_sprite const grid_sprite;
-    ge211::Circle_sprite const viable_move;
-    ge211::Rectangle_sprite const board_sprite;
+    //ge211::Circle_sprite const viable_move;
+    //ge211::Rectangle_sprite const board_sprite;
 
 };
 

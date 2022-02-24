@@ -1,18 +1,22 @@
 #include "controller.hxx"
 
 Controller::Controller(int size)
-        : Controller(size, size)
+        : Controller(size, size, ge211::Posn<int>(0, 0))
 { }
 
-Controller::Controller(int width, int height)
+Controller::Controller(
+        int width,
+        int height,
+        ge211::Posn<int> position)
         : model_(width, height),
-          view_(model_)
+          view_(model_),
+          Position(position)
 { }
 
 void
 Controller::draw(ge211::Sprite_set& sprites)
 {
-    view_.draw(sprites);
+    view_.draw(sprites, Position);
 }
 
 
@@ -30,14 +34,14 @@ Controller::initial_window_title() const
 }
 
 void
-Controller::on_mouse_down(ge211::Mouse_button, ge211::Posn<int>) const
+Controller::on_mouse_down(ge211::Mouse_button, ge211::Posn<int> position)
 {
-    
+    model_.play_move(view_.screen_to_board(position));
 }
 
 void
-Controller::on_mouse_move(ge211::Posn<int>) const
+Controller::on_mouse_move(ge211::Posn<int> position)
 {
-
+    Position = view_.screen_to_board(position);
 }
 
