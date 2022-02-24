@@ -4,7 +4,9 @@ Controller::Controller(int size)
         : Controller(size, size)
 { }
 
-Controller::Controller(int width, int height)
+Controller::Controller(
+        int width,
+        int height)
         : model_(width, height),
           view_(model_)
 { }
@@ -30,14 +32,18 @@ Controller::initial_window_title() const
 }
 
 void
-Controller::on_mouse_down(ge211::Mouse_button, ge211::Posn<int>) const
+Controller::on_mouse_up(ge211::Mouse_button, ge211::Posn<int> position)
 {
-    
+    if(model_.find_move(view_.screen_to_board(position))){
+        model_.play_move(view_.screen_to_board(position));
+
+    }
+
 }
 
 void
-Controller::on_mouse_move(ge211::Posn<int>) const
+Controller::on_mouse_move(ge211::Posn<int> position)
 {
-
+    //position = position;
 }
 
