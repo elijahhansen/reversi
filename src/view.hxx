@@ -19,7 +19,6 @@ public:
     /// Constructs a view that knows about the given model.
     explicit View(Model const&);
 
-    // TODO: your code here
     // You will probably want to add arguments here so that the
     // controller can communicate UI state (such as a mouse or
     // cursor position):
@@ -34,6 +33,31 @@ public:
 private:
     Model const& model_;
 
-    // TODO: Add any additional private members you need, such as helper
-    // functions or sprites.
+    View :: Position
+     board_to_screen (
+            Model :: Position logical )
+    const ;
+
+    Model :: Position
+     screen_to_board (
+            View :: Position physical )
+    const ;
+
+    void
+     add_player_sprite_ (
+            ge211 :: Sprite_set & sprites ,
+            Player which ,
+            ge211 :: Posn <int > physical ,
+            int z_layer )
+    const ;
+
+    ge211::Circle_sprite const light_sprite;
+    ge211::Circle_sprite const dark_sprite;
+    ge211::Rectangle_sprite const grid_sprite;
+    ge211::Circle_sprite const viable_move;
+    ge211::Rectangle_sprite const board_sprite;
+
 };
+
+
+

@@ -98,7 +98,7 @@ Model::evaluate_position_(Position pos) const
     Position_set pset;
     for ( Dimensions dir : board_.all_directions())
     {
-        pset | find_flips_(pos, dir);
+        pset |= find_flips_(pos, dir);
     }
     if (!pset.empty())
     {

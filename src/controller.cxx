@@ -15,6 +15,8 @@ Controller::draw(ge211::Sprite_set& sprites)
     view_.draw(sprites);
 }
 
+
+
 View::Dimensions
 Controller::initial_window_dimensions() const
 {
@@ -25,5 +27,17 @@ std::string
 Controller::initial_window_title() const
 {
     return view_.initial_window_title();
+}
+
+void
+Controller::on_mouse_down(ge211::Mouse_button, ge211::Posn<int>) const
+{
+    
+}
+
+void
+Controller::on_mouse_move(ge211::Posn<int>) const
+{
+
 }
 
