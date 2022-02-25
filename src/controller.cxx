@@ -9,6 +9,7 @@ Controller::Controller(
         int height)
         : model_(width, height),
           view_(model_)
+          //position_(position)
 { }
 
 void

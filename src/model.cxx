@@ -58,7 +58,7 @@ Model::play_move(Position pos)
 
     }
 
-    
+
 }
 
 //
@@ -70,23 +70,22 @@ Model::play_move(Position pos)
 Position_set
 Model::find_flips_(Position current, Dimensions dir) const
 {
-    Position_set pset;
+    Position_set pset = {};
     for (;;)
     {
         current += dir;
-        if (!board_.good_position(current) || board_[current] != other_player
-        (turn_))
+        if (!board_.good_position(current) || board_[current] == Player::neither)
         {
             return pset;
+        }
+        if (board_[current] == other_player(turn_))
+        {
+            pset[current] = true;
+
         }
         else if (board_[current] == turn_)
         {
             return pset;
-
-        }
-        else
-        {
-            pset[current] = true;
         }
     }
 
@@ -95,20 +94,25 @@ Model::find_flips_(Position current, Dimensions dir) const
 Position_set
 Model::evaluate_position_(Position pos) const
 {
-    Position_set pset;
-    for ( Dimensions dir : board_.all_directions())
+    Position_set pset = {};
+    if (board_[pos] == Player::neither)
+    {
+        return pset;
+    }
+    for (Dimensions dir: board_.all_directions())
     {
         pset |= find_flips_(pos, dir);
     }
-    if (!pset.empty())
-    {
-        pset[pos] = true;
-        return pset;
-    }
+    if (pset.empty())
+        {
+            return pset;
+        }
     else
-    {
-        return pset;
-    }
+        {
+            pset[pos] = true;
+            return pset;
+        }
+
 
 }
 
@@ -116,30 +120,32 @@ void
 Model::compute_next_moves_()
 {
     next_moves_.clear();
-    for (Position pos : board_.center_positions())
+    for (Position pos: board_.center_positions())
     {
-        if (board_[pos] != turn_ && board_[pos] != other_player(turn_))
+        if (board_[pos] == Player::neither)
         {
             next_moves_[pos] = {pos};
         }
-        if (!next_moves_.empty())
-        {
-            return;
-        }
     }
-    for (Position p : board_.all_positions())
+    if (!next_moves_.empty())
     {
-        if(!evaluate_position_(p).empty())
+        return;
+    }
+
+    for (Position p: board_.all_positions())
+    {
+        if (!evaluate_position_(p).empty())
         {
             next_moves_[p] = evaluate_position_(p);
         }
     }
 }
 
+
 bool
 Model::advance_turn_()
 {
-    other_player(turn_);
+    turn_ = other_player(turn_);
     compute_next_moves_();
     if (!next_moves_.empty())
     {
@@ -158,9 +164,9 @@ Model::set_game_over_()
     turn_ = Player::neither;
     if (board_.count_player(Player::light) == board_.count_player(Player::dark))
     {
-        winner_ = turn_;
+        winner_ = Player::neither;
     }
-    else if (board_.count_player(Player::light) < board_.count_player(Player::dark))
+    if (board_.count_player(Player::light) < board_.count_player(Player::dark))
     {
         winner_ = Player::dark;
     }
@@ -176,12 +182,16 @@ Model::really_play_move_(Move move)
 {
     for (Position p : move.second)
     {
-         board_[p] = turn_;
+        board_[p] = turn_;
     }
-    bool a = advance_turn_();
-    bool b = advance_turn_();
-    if (!a && !b)
+    if( advance_turn_())
     {
-        set_game_over_();
+        return;
     }
+    if(advance_turn_())
+    {
+        return;
+    }
+    set_game_over_();
+
 }

@@ -20,18 +20,16 @@ public:
     // ERRORS:
     //  - Throws `ge211::Client_logic_error` if either dimension is less
     //    than 2 or greater than 8.
-    Controller(
-            int width,
-            int height);
+    Controller(int width, int height);
 
-// `protected` means that GE211 (via base class `ge211::Abstract_game`)
-// can access these members, but arbitrary other code cannot:
+    // `protected` means that GE211 (via base class `ge211::Abstract_game`)
+    // can access these members, but arbitrary other code cannot:
 protected:
     //
     // Controller operations called by GE211
     //
 
-     void on_mouse_up (
+    void on_mouse_up (
             ge211 :: Mouse_button ,
             ge211 :: Posn <int >) override;
 
@@ -51,8 +49,6 @@ protected:
 private:
     Model model_;
     View  view_;
-    //ge211::Posn<int> position_;
-
 
     // TODO: Add any UI state you need, e.g.:
     //  - the position of the mouse, or
