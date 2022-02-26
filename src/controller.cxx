@@ -45,6 +45,6 @@ Controller::on_mouse_up(ge211::Mouse_button, ge211::Posn<int> position)
 void
 Controller::on_mouse_move(ge211::Posn<int> position)
 {
-    //position = position;
+    //pos = position;
 }
 

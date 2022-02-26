@@ -41,6 +41,7 @@ public:
 
 private:
     Model const& model_;
+    //Position mouse;
 
 
     void
@@ -54,7 +55,9 @@ private:
     ge211::Circle_sprite const light_sprite;
     ge211::Circle_sprite const dark_sprite;
     ge211::Rectangle_sprite const grid_sprite;
-    //ge211::Circle_sprite const viable_move;
+    ge211::Rectangle_sprite const viable_move;
+    ge211::Circle_sprite const gray_sprite;
+    ge211::Rectangle_sprite const back_drop;
    // ge211::Rectangle_sprite const board_sprite;
 
 };

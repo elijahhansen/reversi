@@ -30,7 +30,7 @@ main(int argc, char *argv[]) {
 
         // You can change how you start your game class if you want
         // (but you probably don't need to):
-        Controller(width, height, ge211::Posn<int>(0, 0)).run();
+        Controller(width, height).run();
 
     } catch (std::exception const& e) {
         // This prints out error messages if, say, the command-line argument

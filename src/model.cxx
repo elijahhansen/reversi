@@ -55,7 +55,6 @@ Model::play_move(Position pos)
     else
     {
         really_play_move_(*movep);
-
     }
 
 
@@ -71,14 +70,14 @@ Position_set
 Model::find_flips_(Position current, Dimensions dir) const
 {
     Position_set pset = {};
-    for (;;)
+    while(true)
     {
         current += dir;
         if (!board_.good_position(current) || board_[current] == Player::neither)
         {
-            return pset;
+            return Position_set {};
         }
-        if (board_[current] == other_player(turn_))
+        else if (board_[current] == other_player(turn_))
         {
             pset[current] = true;
 
@@ -95,24 +94,26 @@ Position_set
 Model::evaluate_position_(Position pos) const
 {
     Position_set pset = {};
-    if (board_[pos] == Player::neither)
+    if (board_[pos] != Player::neither)
     {
         return pset;
     }
-    for (Dimensions dir: board_.all_directions())
+    else
     {
-        pset |= find_flips_(pos, dir);
-    }
-    if (pset.empty())
+        for (Dimensions dir: board_.all_directions())
+        {
+            pset |= find_flips_(pos, dir);
+        }
+        if (pset.empty())
         {
             return pset;
         }
-    else
+        else
         {
             pset[pos] = true;
             return pset;
         }
-
+    }
 
 }
 
